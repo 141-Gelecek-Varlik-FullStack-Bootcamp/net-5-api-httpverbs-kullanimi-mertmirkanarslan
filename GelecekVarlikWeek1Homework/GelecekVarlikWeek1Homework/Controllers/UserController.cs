@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GelecekVarlikWeek1Homework.Controllers
 {
-    //route üzerinde template'e s ekliyoruz, bunun sebebi domain.com/api/user gibi bir kullanım yerine domain.com/api/users şeklinde oluşturmasını istememiz.
+    //route üzerinde template'in sonuna s ekliyoruz, bunun sebebi domain.com/api/user gibi bir kullanım yerine "domain.com/api/users" şeklinde oluşturmasını istememiz.
     [Route("api/[controller]s")]
     [ApiController]
     public class UserController : ControllerBase
@@ -63,11 +63,42 @@ namespace GelecekVarlikWeek1Homework.Controllers
             },
         };
 
-        //get, post, put, delete işlemleri yapılacak. 
-        // User Login, New User, User Detail
+        //get ile listeleme (get ile yapıyoruz)
+        [HttpGet("GetUsers")]
+        public List<User> GetUsers()
+        {
+            var user = users.ToList<User>();
+            return user;
+        }
 
+        //verilen id ye göre kullanıcıyı getirme (getbyid)
+        [HttpGet("GetById")]
+        public User GetById(int id)
+        {
+            var user = users.Where(user => user.Id == id).SingleOrDefault();
+            return user;
+        }
 
-        // Users List
+        //yeni user ekleme (post ile yapıyoruz)
+        [HttpPost("AddUser")]
+        public bool Add([FromBody] User user)
+        {
+            User addUser = new User();
+            addUser.Id = user.Id;
+            addUser.Name = user.Name;
+            addUser.Surname = user.Surname;
+            addUser.Age = user.Age;
+            addUser.Email = user.Email;
+            addUser.Password = user.Password;
+
+            users.Add(addUser);
+            return true;
+        }
+
+        
+
+        //get, getbyid, add bitti 
+        //put, delete işlemleri yapılacak.
 
 
     }
