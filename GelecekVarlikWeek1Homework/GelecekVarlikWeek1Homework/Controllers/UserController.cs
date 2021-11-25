@@ -95,11 +95,37 @@ namespace GelecekVarlikWeek1Homework.Controllers
             return true;
         }
 
-        
+        //kullanıcı bilgilerini güncelleme işlemi (put)
+        [HttpPut("Update")]
+        public IActionResult Put(int id, [FromBody] User user)
+        {
+            var _user = users.SingleOrDefault(a => a.Id == id);
+            if (_user == null)
+            {
+                return BadRequest();
+            }
 
-        //get, getbyid, add bitti 
-        //put, delete işlemleri yapılacak.
+            _user.Name = user.Name;
+            _user.Surname = user.Surname;
+            _user.Age = user.Age;
+            _user.Email = user.Email;
+            _user.Password = user.Password;
 
+            return Ok();
+        }
 
+        //Kullanıcı bilgilerini silme işlemi (delete)
+        [HttpDelete("Remove")]
+        public IActionResult Remove(int id)
+        {
+            var _user = users.SingleOrDefault(a => a.Id == id);
+            if (_user == null)
+            {
+                return BadRequest();
+            }
+            users.Remove(_user);
+            return Ok();
+        }
     }
 }
+
